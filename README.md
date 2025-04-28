@@ -7,11 +7,11 @@ User (<ins>User ID</ins>, Email, Display name, First name, Last name)
 
 User_Login (<ins>User ID</ins>, Email, IP Address)
 
-Group (<ins>Group ID</ins>, Group Name, Color code,Group Name2, Color code2,Group Name3, Color code3)
+Group (<ins>Group ID</ins>, Group Name1,Group Name2,Group name 3, bColor1,bColor2,bColor3,fColor1,fColor2,fColor3)
 
 Participate (<ins>Part ID</ins>, User ID, Group ID)
 
-Message (<ins>Msg ID</ins>, Group_ID, Text, Timestamp)
+Message (<ins>Msg ID</ins>, Group_ID, sender_email, Text, Timestamp)
 
 # Limitation
 "Group name" can change 3 times
