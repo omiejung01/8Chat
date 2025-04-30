@@ -2,7 +2,8 @@
 
 require("../db.inc.php");
 //error_reporting(E_ALL);
-header("Content-Type: application/json");
+header('Content-Type: text/event-stream');
+header('Cache-Control: no-cache');
 
 $group_id = htmlspecialchars($_GET["group_id"]);
 
@@ -13,18 +14,21 @@ try {
 	$result = $conn->query($sql);
 
     // Start the JSON array
-    echo '[';
+    //echo '[';
     $first = true;
 	while($row = $result->fetch_assoc()) {
-        if (!$first) {
-            echo ',';
-        }
+        //if (!$first) {
+        //    echo ',';
+        //}
+		echo '[';
+    	
         echo json_encode($row);
 		ob_flush(); flush(); 
         $first = false;
+		echo ']';
     }
     // End the JSON array
-    echo ']';
+    //echo ']';
 
 } catch (Exception $e) {
     // Handle database connection errors
@@ -32,7 +36,7 @@ try {
     echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 } finally {
     // Close the database connection
-    $pdo = null;
+    $conn = null;
 }
 
 
