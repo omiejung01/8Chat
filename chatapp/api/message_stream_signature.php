@@ -1,13 +1,11 @@
-<?php 
+<?php
 
 require("../db.inc.php");
-//error_reporting(E_ALL);
-header('Content-Type: text/event-stream');
+error_reporting(E_ALL);
+header('Content-Type: application/json');
 header('Cache-Control: no-cache');
 
 $group_id = htmlspecialchars($_GET["group_id"]);
-
-//echo $group_id;
 
 try {
     
@@ -31,7 +29,7 @@ try {
         }
 		
         $str_result = $str_result .  json_encode($row);
-		echo json_encode($row);
+		//echo json_encode($row);
 		ob_flush(); flush(); 
         $first = false;
 	}
@@ -40,11 +38,13 @@ try {
     $str_result = $str_result .  ']';
 	//echo ']';
 	
-	//print($str_result);
+	$hash = hash('sha256', $str_result);	
+	$display = array("Hash" => $hash);
+	print(json_encode($display));
 
 } catch (Exception $e) {
     // Handle database connection errors
-    // http_response_code(500);
+    //http_response_code(500);
     echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 } finally {
     // Close the database connection
