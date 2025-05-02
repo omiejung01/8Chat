@@ -11,7 +11,7 @@ try {
     
     $sql = "SELECT sender_email,message_text,created_time " . 
 	"FROM message WHERE void = 0 AND group_id = " . $group_id . 
-	" ORDER BY created_time ";
+	" ORDER BY -created_time ";
    
 	//print($sql);
 	$result = $conn->query($sql);

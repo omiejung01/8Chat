@@ -1,14 +1,15 @@
 <?php 
-
-require("../db.inc.php");
-//error_reporting(E_ALL);
 header('Content-Type: text/event-stream');
 header('Cache-Control: no-cache');
 
+require("../db.inc.php");
+//error_reporting(E_ALL);
 $group_id = htmlspecialchars($_GET["group_id"]);
+$time = date('r');
 
 //echo $group_id;
 
+$str_result = "data:";
 try {
     
     $sql = "SELECT sender_email,message_text,created_time " . 
@@ -17,7 +18,7 @@ try {
    
 	//print($sql);
 	$result = $conn->query($sql);
-	$str_result = '';
+	//$str_result = "data: ";
     // Start the JSON array
 	$str_result = $str_result . '[';
 	//echo '[';
@@ -31,8 +32,9 @@ try {
         }
 		
         $str_result = $str_result .  json_encode($row);
-		echo json_encode($row);
-		ob_flush(); flush(); 
+	//$str_result = $str_result .  "\n {$row['sender_email']} ,{$row['message_text']} ,{$row['created_time']} ,";
+		//echo json_encode($row);
+		//ob_flush(); flush(); 
         $first = false;
 	}
 
@@ -48,8 +50,17 @@ try {
     echo json_encode(['error' => 'Database error: ' . $e->getMessage()]);
 } finally {
     // Close the database connection
-    $conn = null;
+    //$conn = null;
 }
 
+//echo "data: The server time is: {$time}\n\n";
+//echo "data: the server time is {$group_id} : {$time}\n\n";
+//print("data: the server time is {$group_id} : {$time}\n\n");
+print("data:{$str_result}\n\n");
+flush();
+
+//echo "data:123";
+//ob_flush();
+//flush();
 
 ?>

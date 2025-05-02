@@ -1,0 +1,22 @@
+<html>
+<head>
+
+</head>
+
+<body>
+<div id='result' >ABC</div>
+
+<script>
+const x = document.getElementById("result");
+// Check browser support for SSE
+if(typeof(EventSource) !== "undefined") {
+  var source = new EventSource("https://tetrasolution.com/chatapp/api/message_stream2.php?group_id=1");
+  source.onmessage = function(event) {
+    x.innerHTML += event.data + "<br>";
+  };
+} else {
+  x.innerHTML = "Sorry, no support for server-sent events.";
+}
+</script>
+</body>
+</html>
