@@ -14,10 +14,10 @@ Participate (<ins>Part ID</ins>, User ID, Group ID)
 Message (<ins>Msg ID</ins>, Group_ID, sender_email, Text, Timestamp)
 
 # Limitation
-"Group name" can change 3 times
+"Group name" can be changed 3 times
 
 # db.inc.php
-Please put this code in you chatapp/db.inc.php
+Please put this code in your chatapp/db.inc.php
 
 ```
 <?php

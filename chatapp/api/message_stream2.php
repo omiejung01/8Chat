@@ -9,14 +9,18 @@ $time = date('r');
 
 //echo $group_id;
 
-$str_result = "data:";
+$str_result = "";
+
 try {
     
-    $sql = "SELECT sender_email,message_text,created_time " . 
-	"FROM message WHERE void = 0 AND group_id = " . $group_id . 
-	" ORDER BY -created_time ";
+    $sql = "SELECT sender_email, message_text, created_time " .  
+		"FROM message WHERE void = 0 AND group_id = {$group_id} " .
+		"AND created_time > DATE_SUB(NOW(), INTERVAL '8' HOUR) " .
+		"ORDER BY -created_time";
+
    
 	//print($sql);
+	
 	$result = $conn->query($sql);
 	//$str_result = "data: ";
     // Start the JSON array
