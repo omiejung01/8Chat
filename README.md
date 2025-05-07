@@ -19,6 +19,10 @@ Message (<ins>Msg ID</ins>, Group_ID, sender_email, Text, Timestamp)
 # db.inc.php
 Please put this code in your chatapp/db.inc.php
 
+# todo
+Profile picture
+
+
 ```
 <?php
 

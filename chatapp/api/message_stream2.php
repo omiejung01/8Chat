@@ -7,6 +7,9 @@ require("../db.inc.php");
 $group_id = htmlspecialchars($_GET["group_id"]);
 $time = date('r');
 
+$key =$_SERVER['HTTP_X_API_KEY'];
+
+
 //echo $group_id;
 
 $str_result = "";
@@ -43,7 +46,7 @@ try {
 	}
 
     // End the JSON array
-    $str_result = $str_result .  ']';
+    $str_result = $str_result . ']';
 	//echo ']';
 	
 	//print($str_result);
