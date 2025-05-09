@@ -20,7 +20,7 @@ Message (<ins>Msg ID</ins>, Group_ID, sender_email, Text, Timestamp)
 Please put this code in your chatapp/db.inc.php
 
 # todo
-Profile picture with media server
+Profile picture with media server, and upload panel
 
 
 ```
