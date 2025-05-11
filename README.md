@@ -13,6 +13,13 @@ Participate (<ins>Part ID</ins>, User ID, Group ID)
 
 Message (<ins>Msg ID</ins>, Group_ID, sender_email, Text, Timestamp)
 
+# Database Fields
+Please include these fields in every table.
+VOID
+created_time
+edited_time
+edited_by
+
 # Limitation
 "Group name" can be changed 3 times
 
