@@ -27,7 +27,7 @@ edited_by
 Please put this code in your chatapp/db.inc.php
 
 # todo
-Profile picture with media server, and upload panel
+Profile picture with media server, and upload panel to media server.
 
 
 ```
