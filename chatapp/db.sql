@@ -56,15 +56,13 @@ PRIMARY KEY (message_id)
 
 create table user_avatar (
 avatar_id BIGINT,
-user_id INT,
 email VARCHAR(24),
-remark VARCHAR(400),
+location VARCHAR(400),
 void TINYINT DEFAULT 0,
 created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 update_by VARCHAR(24) DEFAULT 'admin',
 updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (avatar_id)
-
 );
 
 
