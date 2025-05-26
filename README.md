@@ -11,7 +11,7 @@ Group (<ins>Group ID</ins>, Group Name1,Group Name2,Group name 3, bColor1,bColor
 
 Participate (<ins>Part ID</ins>, User ID, Group ID)
 
-Message (<ins>Msg ID</ins>, Group_ID, sender_email, Text, Timestamp)
+Message (<ins>Msg ID</ins>, Group_ID, sender_email, Text, Timestamp, Expire)
 
 # Database Fields
 Please include these fields in every table.
