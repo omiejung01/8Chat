@@ -72,7 +72,6 @@ if (is_duplicate_display_name($display_name, $conn)) {
 
 // generate new ID 
 $sql = "SELECT max(user_id) as max_id FROM user ORDER BY user_id ";
-
 $result = $conn->query($sql);
 
 $id = "";
