@@ -1,6 +1,6 @@
 CREATE TABLE user (
 user_id INT,
-email VARCHAR(24),
+email VARCHAR(260),
 display_name VARCHAR(20),
 first_name VARCHAR(200),
 last_name VARCHAR(200),
@@ -8,7 +8,7 @@ status VARCHAR(20) DEFAULT 'Normal',
 remark VARCHAR(400),
 void TINYINT DEFAULT 0,
 created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-update_by VARCHAR(24) DEFAULT 'admin',
+update_by VARCHAR(200) DEFAULT 'admin',
 updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (user_id)
 );
@@ -26,18 +26,18 @@ f_color2  VARCHAR(30) DEFAULT '',
 f_color3  VARCHAR(30) DEFAULT '',
 void TINYINT DEFAULT 0,
 created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-update_by VARCHAR(24) DEFAULT 'admin',
+update_by VARCHAR(200) DEFAULT 'admin',
 updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (group_id)
 );
 
 create table participate (
 part_id INT,
-user_id INT,
+user_email VARCHAR(260),
 group_id INT,
 void TINYINT DEFAULT 0,
 created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-update_by VARCHAR(24) DEFAULT 'admin',
+update_by VARCHAR(260) DEFAULT 'admin',
 updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY(part_id)
 );
@@ -45,23 +45,23 @@ PRIMARY KEY(part_id)
 create table message (
 message_id BIGINT,
 group_id INT,
-sender_email VARCHAR(24),
+sender_email VARCHAR(260),
 message_text VARCHAR(10000),
 void TINYINT DEFAULT 0,
 expired_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-update_by VARCHAR(24) DEFAULT 'admin',
+update_by VARCHAR(260) DEFAULT 'admin',
 updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (message_id)
 );
 
 create table user_avatar (
 avatar_id BIGINT,
-email VARCHAR(24),
+email VARCHAR(260),
 location VARCHAR(400),
 void TINYINT DEFAULT 0,
 created_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-update_by VARCHAR(24) DEFAULT 'admin',
+update_by VARCHAR(260) DEFAULT 'admin',
 updated_time TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
 PRIMARY KEY (avatar_id)
 );
