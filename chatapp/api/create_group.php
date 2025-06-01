@@ -49,28 +49,37 @@ if ($len_group_of_2 != 0) {
 		if (!found) {
 			$row_group_id = $group_of_2[$id]; 			
 			// suppose to be 2
-			$sql6 = "SELECT user_email FROM paticipate WHERE group_id = $row_group_id ORDER BY user_email ";
-			$result6 = $conn->query($sql6);		
-			$row_email = array();
+			$sql6 = "SELECT user_email FROM paticipate WHERE group_id = ? ORDER BY user_email ";
+			
+			$stmt6 = $conn->prepare($sql6);
+			
+			$stmt6->bind_param("s", $row_group_id);
+
+			if ($stmt6->execute()) {
+				$result6 = $stmt6->get_result();
+			
+				//$result6 = $conn->query($sql6);		
+				$row_email = array();
+			
+				while($row6 = $result6->fetch_assoc()) {
+					$row_email[] = $row["user_email"];
+					$group_id_found = $row["group_id"];
+				}
 		
-			while($row6 = $result6->fetch_assoc()) {
-				$row_email[] = $row["user_email"];
-				$group_id_found = $row["group_id"];
+				if (count($row_email) == 2) {
+					$diff = false;
+					if (strcmp($row_email[0], $email1) != 0) {
+						$diff = true;
+					}
+					if (strcmp($row_email[1], $email2) != 0) {
+						$diff = true;
+					}
+					
+					if (!$diff) {
+						$found = true;
+					}
+				}	
 			}
-		
-			if (count($row_email) == 2) {
-				$diff = false;
-				if (strcmp($row_email[0], $email1) != 0) {
-					$diff = true;
-				}
-				if (strcmp($row_email[1], $email2) != 0) {
-					$diff = true;
-				}
-				
-				if (!$diff) {
-					$found = true;
-				}
-			}	
 		}
 	}
 }
@@ -96,20 +105,26 @@ if ($found) {
 	$success = false;
 
 	$sql2 = "INSERT INTO chat_group (group_id, group_name1, group_name2, group_name3) " .
-			"VALUES ($id, '','','');";
-	//echo $id;
-	if ($conn->query($sql2) === TRUE) {
-	  $result = ["id" => $id, "result" => "Success"];
-	  $success = true;
+			"VALUES (?, '','','');";
+			
+	$stmt2 = $conn->prepare($sql2);
+			
+	$stmt2->bind_param("s", $id);
+
+	if ($stmt2->execute()) {
+		//$result2 = $stmt2->get_result();
+		
+		$result = ["id" => $id, "result" => "Success"];
+		$success = true;
 	} else {
-	  $result = "Error: " . $sql2 . "<br>" . $conn->error;
-	  $success = false;
-	  //$result = ["result" => "Not success"];
-	  
+		$result = "Error: " . $sql2 . "<br>" . $conn->error;
+		$success = false;
 	}
 
 	if ($success) {
-		$sql3 = "SELECT max(group_id) as max_id FROM participate ";
+		// create new participate 2 times
+		
+		$sql3 = "SELECT max(part_id) as max_id FROM participate ";
 		$result3 = $conn->query($sql3);
 		$id3 = "";
 		
@@ -122,9 +137,14 @@ if ($found) {
 			$id3 = 1;
 		}
 		
+		$sql4 = "INSERT INTO participate (part_id, user_email, group_id) " .
+			"VALUES ($id3,$email1,$id);";
+			
+		if ($conn->query($sql4) === TRUE) {
+			
+		}
+			
 		
-		$sql4 = "INSERT INTO participate (, group_name1, group_name2, group_name3) " .
-			"VALUES ($id, '','','');";
 		
 	}
 }
