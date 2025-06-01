@@ -89,7 +89,7 @@ if ($found) {
 	$sql = "SELECT max(group_id) as max_id FROM chat_group ";
 	$result = $conn->query($sql);
 
-	$id = "";
+	$id = 0;
 
 	if ($result->num_rows > 0) {	
 		while($row = $result->fetch_assoc()) {
@@ -100,58 +100,48 @@ if ($found) {
 		$id = 1;
 	}
 
+	//$id = 1;
 	$success = false;
 
 	$sql2 = "INSERT INTO chat_group (group_id, group_name1, group_name2, group_name3) " .
-			"VALUES (?, '','','');";
+			"VALUES (?,'','','');";
 			
 	$stmt2 = $conn->prepare($sql2);		
-	$stmt2->bind_param("i", $id);
+	$stmt2->bind_param('i', $id);
 
-	if ($stmt2->execute()) {
-		//$result2 = $stmt2->get_result();
-		
+	if ($stmt2->execute()) {		
 		$result = ["id" => $id, "result" => "Success"];
 		$success = true;
 	} else {
 		$result = "Error: " . $sql2 . "<br>" . $conn->error;
 		$success = false;
 	}
-
+	
 	if ($success) {
 		// create new participate 2 times
-		$sql3 = "SELECT max(part_id) as max_id FROM participate ";		
-		//$result3 = $conn->query($sql3);
-		$stmt3 = $conn->prepare($sql3);	
-
-		if ($stmt3->execute()) {
-			$result3 = $stmt3->get_result();
-
-		//if ($result3->num_rows > 0) {		
-		//	$id3 = "";
-		//}
+		$sql3 = "SELECT max(part_id) as max_id FROM participate  ";		
+		$result3 = $conn->query($sql3);	
 		
-			if ($result3->num_rows > 0) {	
-				while($row3 = $result3->fetch_assoc()) {
-					$id3 = $row["max_id"];
-				}	
-				$id3 += 1;
-			} else {
-				$id3 = 1;
-			}
+		$sql = "SELECT max(group_id) as max_id FROM chat_group ";
+		
+		$id3 = 0;			
+		if ($result3->num_rows > 0) {
 			
-			//$sql4 = "INSERT INTO participate (part_id, user_email, group_id) " .
-			//	"VALUES ($id3,$email1,$id);";
+			while($row3 = $result3->fetch_assoc()) {
+				$id3 = $row3["max_id"];
+			}
+			$id3 += 1;			
 			
 			$sql4 = "INSERT INTO participate (part_id, user_email, group_id) " .
-			"VALUES (?,?,?);";
+			"VALUES (?,?,?); ";
 			
 			$stmt4 = $conn->prepare($sql4);			
 			$stmt4->bind_param("isi", $id3, $email1, $id);
 			$insert_participation_success = true;
 						
-			if ($conn->query($sql4) === TRUE) {
+			if ($stmt4->execute() === TRUE) {
 				// do nothing
+				
 			} else {
 				$insert_participation_success = false;
 			}
@@ -161,10 +151,9 @@ if ($found) {
 			"VALUES (?,?,?);";
 			$stmt5 = $conn->prepare($sql5);			
 			$stmt5->bind_param("isi", $id3, $email2, $id);
-			
 			$insert_participation_success = true;
 						
-			if ($conn->query($sql5) === TRUE) {
+			if ($stmt5->execute() === TRUE) {
 				// do nothing
 			} else {
 				$insert_participation_success = false;
