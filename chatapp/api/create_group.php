@@ -7,8 +7,6 @@ header("Content-Type: application/json");
 //	1. Check for the group that have only two members if yes (go to that group)
 //  2. If not create group and go to that group
 
-
-
 $email1  = htmlspecialchars($_GET["email1"]);
 $email2  = htmlspecialchars($_GET["email2"]);
 
@@ -107,9 +105,8 @@ if ($found) {
 	$sql2 = "INSERT INTO chat_group (group_id, group_name1, group_name2, group_name3) " .
 			"VALUES (?, '','','');";
 			
-	$stmt2 = $conn->prepare($sql2);
-			
-	$stmt2->bind_param("s", $id);
+	$stmt2 = $conn->prepare($sql2);		
+	$stmt2->bind_param("i", $id);
 
 	if ($stmt2->execute()) {
 		//$result2 = $stmt2->get_result();
@@ -123,29 +120,60 @@ if ($found) {
 
 	if ($success) {
 		// create new participate 2 times
+		$sql3 = "SELECT max(part_id) as max_id FROM participate ";		
+		//$result3 = $conn->query($sql3);
+		$stmt3 = $conn->prepare($sql3);	
+
+		if ($stmt3->execute()) {
+			$result3 = $stmt3->get_result();
+
+		//if ($result3->num_rows > 0) {		
+		//	$id3 = "";
+		//}
 		
-		$sql3 = "SELECT max(part_id) as max_id FROM participate ";
-		$result3 = $conn->query($sql3);
-		$id3 = "";
-		
-		if ($result3->num_rows > 0) {	
-			while($row3 = $result3->fetch_assoc()) {
-				$id3 = $row["max_id"];
-			}	
+			if ($result3->num_rows > 0) {	
+				while($row3 = $result3->fetch_assoc()) {
+					$id3 = $row["max_id"];
+				}	
+				$id3 += 1;
+			} else {
+				$id3 = 1;
+			}
+			
+			//$sql4 = "INSERT INTO participate (part_id, user_email, group_id) " .
+			//	"VALUES ($id3,$email1,$id);";
+			
+			$sql4 = "INSERT INTO participate (part_id, user_email, group_id) " .
+			"VALUES (?,?,?);";
+			
+			$stmt4 = $conn->prepare($sql4);			
+			$stmt4->bind_param("isi", $id3, $email1, $id);
+			$insert_participation_success = true;
+						
+			if ($conn->query($sql4) === TRUE) {
+				// do nothing
+			} else {
+				$insert_participation_success = false;
+			}
+			
 			$id3 += 1;
-		} else {
-			$id3 = 1;
+			$sql5 = "INSERT INTO participate (part_id, user_email, group_id) " .
+			"VALUES (?,?,?);";
+			$stmt5 = $conn->prepare($sql5);			
+			$stmt5->bind_param("isi", $id3, $email2, $id);
+			
+			$insert_participation_success = true;
+						
+			if ($conn->query($sql5) === TRUE) {
+				// do nothing
+			} else {
+				$insert_participation_success = false;
+			}
+			
+			if ($insert_participation_success) {
+				$result = ["id" => $id, "result" => "Success"];
+			}
 		}
-		
-		$sql4 = "INSERT INTO participate (part_id, user_email, group_id) " .
-			"VALUES ($id3,$email1,$id);";
-			
-		if ($conn->query($sql4) === TRUE) {
-			
-		}
-			
-		
-		
 	}
 }
 echo json_encode($result);
