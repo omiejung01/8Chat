@@ -27,7 +27,7 @@ $group_id_found = 0;
 // select the group that have only two members
 $group_of_2 = array();
 
-$sql5 = "SELECT group_id, count(user_email) AS nums FROM participate GROUP BY group_id ORDER BY group_id ";
+$sql5 = "SELECT group_id, count(user_email) AS nums FROM participate WHERE void = 0 GROUP BY group_id ORDER BY group_id ";
 $result5 = $conn->query($sql5);
 
 if ($result5->num_rows > 0) {	
@@ -55,7 +55,7 @@ if ($len_group_of_2 != 0) {
 			$row_group_id = $group_of_2[$id];
 			//$str = 'row_group_id: ' . $row_group_id; 			
 			// suppose to be 2
-			$sql6 = "SELECT user_email FROM participate WHERE group_id = ? ORDER BY user_email ";
+			$sql6 = "SELECT user_email FROM participate WHERE group_id = ? AND VOID = 0 ORDER BY user_email ";
 			
 			$stmt6 = $conn->prepare($sql6);
 			$stmt6->bind_param("i", $row_group_id);
